@@ -1,4 +1,4 @@
-import { hitShip } from "./ship"
+import { hitShip, isShipSunk } from "./ship"
 
 function createGameboard(rows, columns) {
   return {
@@ -39,4 +39,15 @@ function attackGameboard(gameboard, location) {
   return false
 }
 
-export { createGameboard, placeShipInGameboard, attackGameboard }
+function areAllShipsSunk(gameboard) {
+  return gameboard.ships.every((ship) => {
+    return isShipSunk(ship)
+  })
+}
+
+export {
+  createGameboard,
+  placeShipInGameboard,
+  attackGameboard,
+  areAllShipsSunk,
+}

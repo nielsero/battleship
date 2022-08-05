@@ -1,4 +1,5 @@
 import {
+  areAllShipsSunk,
   attackGameboard,
   createGameboard,
   placeShipInGameboard,
@@ -106,5 +107,38 @@ describe("attackGameboard", () => {
     const isAttacked = attackGameboard(gameboard, [4, 4])
     expect(isAttacked).toBeFalsy()
     expect(gameboard.missedLocations.length).toBe(0)
+  })
+})
+
+describe("areAllShipsSunk", () => {
+  test("all ships sunk", () => {
+    const ship1 = { length: 1, locations: [[0, 0]], hits: [[0, 0]] }
+    const ship2 = { length: 1, locations: [[3, 3]], hits: [[3, 3]] }
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [ship1, ship2],
+      missedLocations: [],
+    }
+    expect(areAllShipsSunk(gameboard)).toBeTruthy()
+  })
+
+  test("some ships are still alive", () => {
+    const ship1 = {
+      length: 1,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [[0, 0]],
+    }
+    const ship2 = { length: 1, locations: [[3, 3]], hits: [[3, 3]] }
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [ship1, ship2],
+      missedLocations: [],
+    }
+    expect(areAllShipsSunk(gameboard)).toBeFalsy()
   })
 })
