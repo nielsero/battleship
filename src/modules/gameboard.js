@@ -9,6 +9,7 @@ function createGameboard(rows, columns) {
 
 function placeShipInGameboard(gameboard, ship, locations) {
   if (!areLocationsValid(gameboard, locations)) return
+  if (locations.length !== ship.length) return
   ship.locations = [...ship.locations, ...locations]
   gameboard.ships = [...gameboard.ships, ship]
 }
