@@ -1,31 +1,79 @@
-import Ship from "./ship"
+import { createShip, hitShip, isShipSunk } from "./ship"
 
-test("create a ship", () => {
-  const ship = new Ship(2)
-  expect(ship).toEqual({ length: 2, hits: [] })
+describe("createShip", () => {
+  test("create ship w/ given length", () => {
+    const ship = { length: 2, locations: [], hits: [] }
+    expect(createShip(2)).toEqual(ship)
+  })
 })
 
-test("hit a ship", () => {
-  const ship = new Ship(2)
-  ship.hit(0)
-  expect(ship.hits.includes(0)).toBeTruthy()
+describe("hitShip", () => {
+  test("hit valid location of ship", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [],
+    }
+    hitShip(ship, [0, 0])
+    expect(ship.hits.length).toBe(1)
+  })
+
+  test("ignore invalid location", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [],
+    }
+    hitShip(ship, [0, 2])
+    expect(ship.hits.length).toBe(0)
+  })
+
+  test("ignore re-hits (hits on same location)", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [],
+    }
+    hitShip(ship, [0, 0])
+    hitShip(ship, [0, 0])
+    expect(ship.hits.length).toBe(1)
+  })
 })
 
-test("ship is sunk", () => {
-  const ship = new Ship(2)
-  ship.hits = [0, 1]
-  expect(ship.isSunk()).toBeTruthy()
-})
+describe("isShipSunk", () => {
+  test("ship is sunk", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [
+        [0, 0],
+        [0, 1],
+      ],
+    }
+    expect(isShipSunk(ship)).toBeTruthy()
+  })
 
-test("invalid position doesn't hit", () => {
-  const ship = new Ship(2)
-  ship.hit(2)
-  expect(ship.hits.includes(2)).not.toBeTruthy()
-})
-
-test("re-hit positions count only once", () => {
-  const ship = new Ship(2)
-  ship.hit(0)
-  ship.hit(0)
-  expect(ship.hits.length).toBe(1)
+  test("ship is not sunk", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [[0, 0]],
+    }
+    expect(isShipSunk(ship)).toBeFalsy()
+  })
 })

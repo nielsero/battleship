@@ -1,18 +1,23 @@
-class Ship {
-  constructor(length) {
-    this.length = length
-    this.hits = []
-  }
-
-  hit(position) {
-    if (position < 0 || position >= this.length) return
-    if (this.hits.includes(position)) return
-    this.hits.push(position)
-  }
-
-  isSunk() {
-    return this.hits.length === this.length
+function createShip(length) {
+  return {
+    length,
+    locations: [],
+    hits: [],
   }
 }
 
-export default Ship
+function hitShip(ship, location) {
+  const locations = ship.locations.map((location) => location.toString())
+  if (!locations.includes(location.toString())) return
+
+  const hits = ship.hits.map((hit) => hit.toString())
+  if (hits.includes(location.toString())) return
+
+  ship.hits.push(location)
+}
+
+function isShipSunk(ship) {
+  return ship.locations.length === ship.hits.length
+}
+
+export { createShip, hitShip, isShipSunk }
