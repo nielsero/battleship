@@ -65,9 +65,75 @@ describe("placeShipInGameboard", () => {
     expect(gameboard.ships.length).toBe(0)
   })
 
-  test("place ships in contiguos locations", () => {})
+  test("place ship in contiguos locations (same row)", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 3, locations: [], hits: [] }
+    const locations = [
+      [0, 0],
+      [0, 1],
+      [0, 2],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeTruthy()
+    expect(ship.locations.length).toBe(3)
+    expect(gameboard.ships.length).toBe(1)
+  })
 
-  test("ignore placing ship if locations are not contiguos", () => {})
+  test("place ship in contiguos locations (same column)", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 3, locations: [], hits: [] }
+    const locations = [
+      [2, 0],
+      [0, 0],
+      [1, 0],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeTruthy()
+    expect(ship.locations.length).toBe(3)
+    expect(gameboard.ships.length).toBe(1)
+  })
+
+  test("ignore non-contiguos locations (mismatched rows & columns)", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 3, locations: [], hits: [] }
+    const locations = [
+      [0, 0],
+      [0, 1],
+      [1, 3],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
+    expect(ship.locations.length).toBe(0)
+    expect(gameboard.ships.length).toBe(0)
+  })
+
+  test("ignore non-contiguos locations (skipped cells in same row)", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 3, locations: [], hits: [] }
+    const locations = [
+      [0, 0],
+      [0, 1],
+      [0, 3],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
+    expect(ship.locations.length).toBe(0)
+    expect(gameboard.ships.length).toBe(0)
+  })
+
+  test("ignore non-contiguos locations (skipped cells in same column)", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 3, locations: [], hits: [] }
+    const locations = [
+      [0, 0],
+      [2, 0],
+      [3, 0],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
+    expect(ship.locations.length).toBe(0)
+    expect(gameboard.ships.length).toBe(0)
+  })
 })
 
 describe("attackGameboard", () => {
