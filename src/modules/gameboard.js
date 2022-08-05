@@ -10,8 +10,9 @@ function createGameboard(rows, columns) {
 }
 
 function placeShipInGameboard(gameboard, ship, locations) {
-  if (!areLocationsInBoard(gameboard, locations)) return false
   if (locations.length !== ship.length) return false
+  if (!areLocationsInBoard(gameboard, locations)) return false
+  if (!areLocationsUnique(locations)) return false
   if (!areLocationsContiguos(locations)) return false
   ship.locations = [...ship.locations, ...locations]
   gameboard.ships = [...gameboard.ships, ship]
@@ -80,6 +81,11 @@ function getArithmeticSeriesSum(array) {
   const min = Math.min(...array) // we have to destructure first (see min, max docs)
   const max = Math.max(...array)
   return ((min + max) * array.length) / 2 // math has a purpose???
+}
+
+function areLocationsUnique(locations) {
+  const locationsSet = new Set(locations.map((location) => location.toString()))
+  return locationsSet.size === locations.length
 }
 
 export {

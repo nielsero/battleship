@@ -134,6 +134,19 @@ describe("placeShipInGameboard", () => {
     expect(ship.locations.length).toBe(0)
     expect(gameboard.ships.length).toBe(0)
   })
+
+  test("ignore placing ship if provided duplicate location", () => {
+    const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
+    const ship = { length: 2, locations: [], hits: [] }
+    const locations = [
+      [0, 0],
+      [0, 0],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
+    expect(ship.locations.length).toBe(0)
+    expect(gameboard.ships.length).toBe(0)
+  })
 })
 
 describe("attackGameboard", () => {
