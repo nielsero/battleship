@@ -1,3 +1,5 @@
+import { hitShip } from "./ship"
+
 function createGameboard(rows, columns) {
   return {
     rows,
@@ -28,4 +30,11 @@ function isLocationValid(gameboard, location) {
   return true
 }
 
-export { createGameboard, placeShipInGameboard }
+function attackGameboard(gameboard, location) {
+  const isSomeShipHit = gameboard.ships.some((ship) => hitShip(ship, location))
+  if (isSomeShipHit) return true
+  gameboard.missedLocations = [...gameboard.missedLocations, location]
+  return false
+}
+
+export { createGameboard, placeShipInGameboard, attackGameboard }

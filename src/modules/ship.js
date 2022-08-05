@@ -8,12 +8,13 @@ function createShip(length) {
 
 function hitShip(ship, location) {
   const locations = ship.locations.map((location) => location.toString())
-  if (!locations.includes(location.toString())) return
+  if (!locations.includes(location.toString())) return false
 
   const hits = ship.hits.map((hit) => hit.toString())
-  if (hits.includes(location.toString())) return
+  if (hits.includes(location.toString())) return false
 
   ship.hits.push(location)
+  return true
 }
 
 function isShipSunk(ship) {

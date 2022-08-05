@@ -17,7 +17,8 @@ describe("hitShip", () => {
       ],
       hits: [],
     }
-    hitShip(ship, [0, 0])
+    const hit = hitShip(ship, [0, 0])
+    expect(hit).toBeTruthy()
     expect(ship.hits.length).toBe(1)
   })
 
@@ -30,7 +31,8 @@ describe("hitShip", () => {
       ],
       hits: [],
     }
-    hitShip(ship, [0, 2])
+    const hit = hitShip(ship, [0, 2])
+    expect(hit).toBeFalsy()
     expect(ship.hits.length).toBe(0)
   })
 
@@ -43,8 +45,10 @@ describe("hitShip", () => {
       ],
       hits: [],
     }
-    hitShip(ship, [0, 0])
-    hitShip(ship, [0, 0])
+    const hit1 = hitShip(ship, [0, 0])
+    const hit2 = hitShip(ship, [0, 0])
+    expect(hit1).toBeTruthy()
+    expect(hit2).toBeFalsy()
     expect(ship.hits.length).toBe(1)
   })
 })
