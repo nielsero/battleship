@@ -19,7 +19,8 @@ describe("placeShipInGameboard", () => {
       [0, 0],
       [0, 1],
     ]
-    placeShipInGameboard(gameboard, ship, locations)
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeTruthy()
     expect(ship.locations.length).toBe(2)
     expect(gameboard.ships.length).toBe(1)
   })
@@ -31,7 +32,8 @@ describe("placeShipInGameboard", () => {
       [4, 4],
       [4, 5],
     ]
-    placeShipInGameboard(gameboard, ship, locations)
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
     expect(ship.locations.length).toBe(0)
     expect(gameboard.ships.length).toBe(0)
   })
@@ -43,7 +45,8 @@ describe("placeShipInGameboard", () => {
       [0, 0],
       [4, 5],
     ]
-    placeShipInGameboard(gameboard, ship, locations)
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
     expect(ship.locations.length).toBe(0)
     expect(gameboard.ships.length).toBe(0)
   })
@@ -55,23 +58,27 @@ describe("placeShipInGameboard", () => {
       [0, 0],
       [0, 1],
     ]
-    placeShipInGameboard(gameboard, ship, locations)
+    const isPlaced = placeShipInGameboard(gameboard, ship, locations)
+    expect(isPlaced).toBeFalsy()
     expect(ship.locations.length).toBe(0)
     expect(gameboard.ships.length).toBe(0)
   })
+
+  test("place ships in contiguos locations", () => {})
+
+  test("ignore placing ship if locations are not contiguos", () => {})
 })
 
 describe("attackGameboard", () => {
   test("attack empty location", () => {
-    const ship = { length: 1, locations: [[0, 0]], hits: [] }
     const gameboard = {
       rows: 4,
       columns: 4,
-      ships: [ship],
+      ships: [],
       missedLocations: [],
     }
-    const attack = attackGameboard(gameboard, [0, 1])
-    expect(attack).toBeFalsy()
+    const isAttacked = attackGameboard(gameboard, [0, 1])
+    expect(isAttacked).toBeFalsy()
     expect(gameboard.missedLocations.length).toBe(1)
   })
 
@@ -83,9 +90,21 @@ describe("attackGameboard", () => {
       ships: [ship],
       missedLocations: [],
     }
-    const attack = attackGameboard(gameboard, [0, 0])
-    expect(attack).toBeTruthy()
+    const isAttacked = attackGameboard(gameboard, [0, 0])
+    expect(isAttacked).toBeTruthy()
     expect(gameboard.missedLocations.length).toBe(0)
     expect(ship.hits.length).toBe(1)
+  })
+
+  test("ignore attack in invalid location", () => {
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [],
+      missedLocations: [],
+    }
+    const isAttacked = attackGameboard(gameboard, [4, 4])
+    expect(isAttacked).toBeFalsy()
+    expect(gameboard.missedLocations.length).toBe(0)
   })
 })

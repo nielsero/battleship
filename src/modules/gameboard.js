@@ -10,10 +10,11 @@ function createGameboard(rows, columns) {
 }
 
 function placeShipInGameboard(gameboard, ship, locations) {
-  if (!areLocationsValid(gameboard, locations)) return
-  if (locations.length !== ship.length) return
+  if (!areLocationsValid(gameboard, locations)) return false
+  if (locations.length !== ship.length) return false
   ship.locations = [...ship.locations, ...locations]
   gameboard.ships = [...gameboard.ships, ship]
+  return true
 }
 
 function areLocationsValid(gameboard, locations) {
@@ -31,6 +32,7 @@ function isLocationValid(gameboard, location) {
 }
 
 function attackGameboard(gameboard, location) {
+  if (!isLocationValid(gameboard, location)) return false
   const isSomeShipHit = gameboard.ships.some((ship) => hitShip(ship, location))
   if (isSomeShipHit) return true
   gameboard.missedLocations = [...gameboard.missedLocations, location]
