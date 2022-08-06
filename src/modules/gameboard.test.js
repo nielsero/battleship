@@ -183,8 +183,8 @@ describe("attackGameboard", () => {
       ships: [],
       missedLocations: [],
     }
-    const isAttacked = attackGameboard(gameboard, [0, 1])
-    expect(isAttacked).toBeFalsy()
+    const attackCode = attackGameboard(gameboard, [0, 1])
+    expect(attackCode).toMatch("miss")
     expect(gameboard.missedLocations.length).toBe(1)
   })
 
@@ -196,8 +196,8 @@ describe("attackGameboard", () => {
       ships: [ship],
       missedLocations: [],
     }
-    const isAttacked = attackGameboard(gameboard, [0, 0])
-    expect(isAttacked).toBeTruthy()
+    const attackCode = attackGameboard(gameboard, [0, 0])
+    expect(attackCode).toMatch("hit")
     expect(gameboard.missedLocations.length).toBe(0)
     expect(ship.hits.length).toBe(1)
   })
