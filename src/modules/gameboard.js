@@ -13,17 +13,20 @@ function placeShipInGameboard(gameboard, ship, locations) {
   if (locations.length !== ship.length) return false
   if (!areLocationsInBoard(gameboard, locations)) return false
   if (!areLocationsUnique(locations)) return false
+  if (areLocationsOccupiedInBoard(gameboard, locations)) return false
   if (!areLocationsContiguos(locations)) return false
-  ship.locations = [...ship.locations, ...locations]
-  gameboard.ships = [...gameboard.ships, ship]
+  ship.locations.push(...locations)
+  gameboard.ships.push(ship)
   return true
 }
 
 function attackGameboard(gameboard, location) {
   if (!isLocationInBoard(gameboard, location)) return false
+  if (isLocationAlreadyMissedInBoard(gameboard, location)) return false
+  if (isLocationAlreadyHitInBoard(gameboard, location)) return false
   const isSomeShipHit = gameboard.ships.some((ship) => hitShip(ship, location))
   if (isSomeShipHit) return true
-  gameboard.missedLocations = [...gameboard.missedLocations, location]
+  gameboard.missedLocations.push(location)
   return false
 }
 
@@ -86,6 +89,30 @@ function getArithmeticSeriesSum(array) {
 function areLocationsUnique(locations) {
   const locationsSet = new Set(locations.map((location) => location.toString()))
   return locationsSet.size === locations.length
+}
+
+function areLocationsOccupiedInBoard(gameboard, locations) {
+  return locations.some((location) =>
+    isLocationOccupiedInBoard(gameboard, location)
+  )
+}
+
+function isLocationOccupiedInBoard(gameboard, location) {
+  return gameboard.ships.some((ship) => {
+    return ship.locations.some((loc) => loc.toString() === location.toString())
+  })
+}
+
+function isLocationAlreadyMissedInBoard(gameboard, location) {
+  return gameboard.missedLocations.some((missedLocation) => {
+    return missedLocation.toString() === location.toString()
+  })
+}
+
+function isLocationAlreadyHitInBoard(gameboard, location) {
+  return gameboard.ships.some((ship) => {
+    return ship.hits.some((hit) => hit.toString() === location.toString())
+  })
 }
 
 export {

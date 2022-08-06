@@ -147,6 +147,32 @@ describe("placeShipInGameboard", () => {
     expect(ship.locations.length).toBe(0)
     expect(gameboard.ships.length).toBe(0)
   })
+
+  test("ignore placing ship if provided location of another ship", () => {
+    const ship1 = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [],
+    }
+    const ship2 = { length: 2, locations: [], hits: [] }
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [ship1],
+      missedLocations: [],
+    }
+    const locations = [
+      [0, 1],
+      [0, 2],
+    ]
+    const isPlaced = placeShipInGameboard(gameboard, ship2, locations)
+    expect(isPlaced).toBeFalsy()
+    expect(ship2.locations.length).toBe(0)
+    expect(gameboard.ships.length).toBe(1)
+  })
 })
 
 describe("attackGameboard", () => {
@@ -186,6 +212,39 @@ describe("attackGameboard", () => {
     const isAttacked = attackGameboard(gameboard, [4, 4])
     expect(isAttacked).toBeFalsy()
     expect(gameboard.missedLocations.length).toBe(0)
+  })
+
+  test("ignore attack in already missed location", () => {
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [],
+      missedLocations: [[1, 1]],
+    }
+    const isAttacked = attackGameboard(gameboard, [1, 1])
+    expect(isAttacked).toBeFalsy()
+    expect(gameboard.missedLocations.length).toBe(1)
+  })
+
+  test("ignore attack in already hit location", () => {
+    const ship = {
+      length: 1,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [[0, 0]],
+    }
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [ship],
+      missedLocations: [],
+    }
+    const isAttacked = attackGameboard(gameboard, [0, 0])
+    expect(isAttacked).toBeFalsy()
+    expect(gameboard.missedLocations.length).toBe(0)
+    expect(ship.hits.length).toBe(1)
   })
 })
 
