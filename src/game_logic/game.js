@@ -1,51 +1,46 @@
+import { bindComputerCellsEventListeners } from "../dom_manipulation/bindEventListeners"
+import { renderInitialComputerGameboard } from "../dom_manipulation/render"
 import {
-  areAllShipsSunk,
+  // areAllShipsSunk,
   createGameboard,
   placeShipInGameboard,
 } from "./gameboard"
-import { attackPlayer, createPlayer, generateComputerMove } from "./player"
+import {
+  /* attackPlayer, */ createPlayer /* generateComputerMove */,
+} from "./player"
 import { createShip } from "./ship"
 
 function game() {
-  const player = createPlayer("Niels", createGameboard(4, 4))
-  const computer = createPlayer("Computer", createGameboard(4, 4))
+  // const player = createPlayer("Niels", createGameboard(8, 8))
+  const computer = createPlayer("Computer", createGameboard(8, 8))
 
   const shipOne = createShip(2)
   const shipTwo = createShip(3)
+  const shipThree = createShip(4)
 
   console.log("Placing ship 1")
-  placeShipInGameboard(player.gameboard, shipOne, [
+  placeShipInGameboard(computer.gameboard, shipOne, [
     [0, 0],
     [0, 1],
   ])
 
   console.log("Placing ship 2")
   placeShipInGameboard(computer.gameboard, shipTwo, [
-    [0, 0],
-    [0, 1],
-    [0, 2],
+    [1, 0],
+    [1, 1],
+    [1, 2],
   ])
 
-  while (
-    !areAllShipsSunk(player.gameboard) &&
-    !areAllShipsSunk(computer.gameboard)
-  ) {
-    while (true) {
-      const x = prompt("x: ")
-      const y = prompt("y: ")
-      const attackCode = attackPlayer(computer, [Number(x), Number(y)])
-      if (attackCode) {
-        console.log("Player")
-        console.table(attackCode)
-        break
-      }
-      console.log("Invalid location, try again")
-    }
-    const computerMove = generateComputerMove(player)
-    console.log("Computer")
-    console.table(computerMove)
-  }
-  console.log("Game Over")
+  console.log("Placing ship 3")
+  placeShipInGameboard(computer.gameboard, shipThree, [
+    [2, 0],
+    [2, 1],
+    [2, 2],
+    [2, 3],
+  ])
+
+  renderInitialComputerGameboard(computer)
+  bindComputerCellsEventListeners(computer)
 }
 
 export default game
