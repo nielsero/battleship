@@ -1,4 +1,4 @@
-import { createShip, hitShip, isShipSunk } from "./ship"
+import { createShip, hitShip, isShipSunk } from "../game_logic/ship"
 
 describe("createShip", () => {
   test("create ship w/ given length", () => {

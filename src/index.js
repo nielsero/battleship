@@ -1,10 +1,8 @@
 import "./style.css"
-import game from "./modules/game"
-import { addNewPlayerGameboard, addNewComputerGameboard } from "./modules/dom"
+import game from "./game_logic/game"
+
 main()
 
 function main() {
-  addNewPlayerGameboard()
-  addNewComputerGameboard()
   // game()
 }

@@ -1,4 +1,8 @@
-import { attackPlayer, createPlayer, generateComputerMove } from "./player"
+import {
+  attackPlayer,
+  createPlayer,
+  generateComputerMove,
+} from "../game_logic/player"
 
 describe("createPlayer", () => {
   test("create a player w/ given name & gameboard", () => {

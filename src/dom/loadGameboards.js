@@ -1,3 +1,4 @@
+// DOM elements
 const playerGameboardContainer = document.querySelector(
   ".player-gameboard-container"
 )
@@ -15,6 +16,17 @@ function addNewComputerGameboard() {
   computerGameboardContainer.appendChild(createGameboard())
 }
 
+function renderPlayerGameboard(gameboard) {
+  gameboard.ships.forEach((ship) => {
+    ship.locations.forEach((location) => {
+      const cell = playerGameboardContainer.querySelector(
+        `[data-location="${location.toString()}"]`
+      )
+      cell.classList.add("ship")
+    })
+  })
+}
+
 function createGameboard() {
   const gameboard = document.createElement("div")
   gameboard.classList.add("gameboard")
@@ -22,8 +34,7 @@ function createGameboard() {
     for (let j = 0; j < 8; j++) {
       const cell = document.createElement("div")
       cell.classList.add("cell")
-      cell.dataset.x = i
-      cell.dataset.y = j
+      cell.dataset.location = [i, j].toString()
       gameboard.appendChild(cell)
     }
   }
@@ -36,4 +47,4 @@ function cleanContainer(container) {
   }
 }
 
-export { addNewPlayerGameboard, addNewComputerGameboard }
+export { addNewPlayerGameboard, addNewComputerGameboard, renderPlayerGameboard }

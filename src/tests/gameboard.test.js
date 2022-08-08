@@ -3,7 +3,7 @@ import {
   attackGameboard,
   createGameboard,
   placeShipInGameboard,
-} from "./gameboard"
+} from "../game_logic/gameboard"
 
 describe("createGameboard", () => {
   test("create gameboard w/ given rows & columns", () => {
