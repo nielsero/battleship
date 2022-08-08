@@ -63,4 +63,32 @@ describe("generateComputerMove", () => {
       computerMove.result === "miss" && gameboard.missedLocations.length === 1
     expect(caseHit || caseMiss).toBeTruthy()
   })
+
+  test("computer makes more than 1 move", () => {
+    const ship = {
+      length: 2,
+      locations: [
+        [0, 0],
+        [0, 1],
+      ],
+      hits: [],
+    }
+    const gameboard = {
+      rows: 4,
+      columns: 4,
+      ships: [ship],
+      missedLocations: [],
+    }
+    const player = { name: "Niels", gameboard }
+    let computerMove = generateComputerMove(player)
+    let caseHit = computerMove.result === "hit" && ship.hits.length === 1
+    let caseMiss =
+      computerMove.result === "miss" && gameboard.missedLocations.length === 1
+    expect(caseHit || caseMiss).toBeTruthy()
+
+    computerMove = generateComputerMove(player)
+    caseHit = computerMove.result === "hit"
+    caseMiss = computerMove.result === "miss"
+    expect(caseHit || caseMiss).toBeTruthy()
+  })
 })

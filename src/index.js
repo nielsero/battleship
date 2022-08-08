@@ -1,3 +1,7 @@
+import game from "./modules/game"
+
 main()
 
-function main() {}
+function main() {
+  game()
+}
