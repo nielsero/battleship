@@ -18,7 +18,7 @@ function generateComputerMove(player) {
 }
 
 function generateRandom(number) {
-  return Math.floor(Math.random * number)
+  return Math.floor(Math.random() * number)
 }
 
 export { createPlayer, attackPlayer, generateComputerMove }
