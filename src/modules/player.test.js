@@ -13,7 +13,7 @@ describe("attackPlayer", () => {
     const gameboard = { rows: 4, columns: 4, ships: [], missedLocations: [] }
     const player = { name: "Niels", gameboard }
     const attackCode = attackPlayer(player, [0, 1])
-    expect(attackCode).toMatch("miss")
+    expect(attackCode.result).toMatch("miss")
     expect(gameboard.missedLocations.length).toBe(1)
   })
 
@@ -34,7 +34,7 @@ describe("attackPlayer", () => {
     }
     const player = { name: "Niels", gameboard }
     const attackCode = attackPlayer(player, [0, 1])
-    expect(attackCode).toMatch("hit")
+    expect(attackCode.result).toMatch("hit")
     expect(gameboard.missedLocations.length).toBe(0)
     expect(ship.hits.length).toBe(1)
   })
@@ -58,9 +58,9 @@ describe("generateComputerMove", () => {
     }
     const player = { name: "Niels", gameboard }
     const computerMove = generateComputerMove(player)
-    const caseHit = computerMove === "hit" && ship.hits.length === 1
+    const caseHit = computerMove.result === "hit" && ship.hits.length === 1
     const caseMiss =
-      computerMove === "miss" && gameboard.missedLocations.length === 1
+      computerMove.result === "miss" && gameboard.missedLocations.length === 1
     expect(caseHit || caseMiss).toBeTruthy()
   })
 })

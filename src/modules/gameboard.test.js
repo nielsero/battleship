@@ -184,7 +184,7 @@ describe("attackGameboard", () => {
       missedLocations: [],
     }
     const attackCode = attackGameboard(gameboard, [0, 1])
-    expect(attackCode).toMatch("miss")
+    expect(attackCode).toEqual({ result: "miss", location: [0, 1] })
     expect(gameboard.missedLocations.length).toBe(1)
   })
 
@@ -197,7 +197,7 @@ describe("attackGameboard", () => {
       missedLocations: [],
     }
     const attackCode = attackGameboard(gameboard, [0, 0])
-    expect(attackCode).toMatch("hit")
+    expect(attackCode).toEqual({ result: "hit", location: [0, 0] })
     expect(gameboard.missedLocations.length).toBe(0)
     expect(ship.hits.length).toBe(1)
   })

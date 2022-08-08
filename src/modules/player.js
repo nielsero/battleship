@@ -13,7 +13,8 @@ function generateComputerMove(player) {
     const x = generateRandom(player.gameboard.rows)
     const y = generateRandom(player.gameboard.columns)
     const attackCode = attackPlayer(player, [x, y])
-    if (attackCode === "hit" || attackCode === "miss") return attackCode
+    if (attackCode.result === "hit" || attackCode.result === "miss")
+      return attackCode
   }
 }
 

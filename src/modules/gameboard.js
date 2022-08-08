@@ -25,9 +25,9 @@ function attackGameboard(gameboard, location) {
   if (isLocationAlreadyMissedInBoard(gameboard, location)) return false
   if (isLocationAlreadyHitInBoard(gameboard, location)) return false
   const isSomeShipHit = gameboard.ships.some((ship) => hitShip(ship, location))
-  if (isSomeShipHit) return "hit"
+  if (isSomeShipHit) return { result: "hit", location }
   gameboard.missedLocations.push(location)
-  return "miss"
+  return { result: "miss", location }
 }
 
 function areAllShipsSunk(gameboard) {
